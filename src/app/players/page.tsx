@@ -14,10 +14,10 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
-export const metadata: Metadata = {
-    title: "Players",
-    description: "Example dashboard app built using the components.",
-  }
+// export const metadata: Metadata = {
+//     title: "Players",
+//     description: "Example dashboard app built using the components.",
+//   }
 
 export default function Players() {
     const [athletes , setAthletes] = useState<any>([]);
