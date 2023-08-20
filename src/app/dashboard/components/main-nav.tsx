@@ -26,10 +26,10 @@ export function MainNav({
         Players
       </Link>
       <Link
-        href="/examples/dashboard"
-        className={`text-sm font-medium transition-colors hover:text-primary ${ pathname === '/otro' ? '' : 'text-gray-400'}`}
+        href="/scan"
+        className={`text-sm font-medium transition-colors hover:text-primary ${ pathname === '/scan' ? '' : 'text-gray-400'}`}
       >
-        Products
+        Scan
       </Link>
       <Link
         href="/examples/dashboard"
