@@ -17,7 +17,9 @@ export default function MainLayout({children}: any) {
                 </div>
             </div>
             </div>
-            {children}
+            <div className="">
+                {children}
+            </div>
         </div>
     </>)
 }

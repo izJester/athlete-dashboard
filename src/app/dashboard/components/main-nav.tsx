@@ -8,35 +8,35 @@ export function MainNav({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname ();
+  const routes: { title: string; href: string }[] = [
+    {
+      title: "Overview",
+      href: "/dashboard",
+    },
+    {
+      title: "Players",
+      href: "/players",
+    },
+    {
+      title: "Scan",
+      href: "/scan",
+    },
+  ];
   return (
     <nav
       className={cn("flex items-center space-x-4 lg:space-x-6", className)}
       {...props}
     >
-      <Link
-        href="/dashboard"
-        className={`text-sm font-medium transition-colors hover:text-primary ${ pathname === '/dashboard' ? '' : 'text-gray-400'}`}
-      >
-        Overview
-      </Link>
-      <Link
-        href="/players"
-        className={`text-sm font-medium transition-colors hover:text-primary ${ pathname === '/players' ? '' : 'text-gray-400'}`}
-      >
-        Players
-      </Link>
-      <Link
-        href="/scan"
-        className={`text-sm font-medium transition-colors hover:text-primary ${ pathname === '/scan' ? '' : 'text-gray-400'}`}
-      >
-        Scan
-      </Link>
-      <Link
-        href="/examples/dashboard"
-        className={`text-sm font-medium transition-colors hover:text-primary ${ pathname === '/aja' ? '' : 'text-gray-400'}`}
-      >
-        Settings
-      </Link>
+      {
+        routes.map(route => <>
+          <Link
+            href={route.href}
+            className={`text-sm font-medium transition-colors hover:text-primary ${ pathname === route.href ? 'text-primary' : 'text-gray-400'}`}
+          >
+            {route.title}
+          </Link>
+        </>)
+      }
     </nav>
   )
 }

@@ -1,21 +1,34 @@
 'use client'
 
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { useEffect, useMemo, useState } from "react";
 import { db } from "../../../../firebase.config";
-import { readSync } from "fs";
-import { Player } from "@/app/interfaces";
 import MainLayout from "@/layouts/mainLayout";
 import moment from "moment";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Compass, Edit, Facebook, Twitter } from 'react-feather';
+import { Instagram } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const ViewPlayer = ({params} : any) => {
     const [playerData, setPlayer] = useState<any>();
+    const [open, setOpen] = useState(false)
 
     const toBirthDate = useMemo(() => moment(playerData?.dob.toDate()).format("MMMM DD , YYYY"), [playerData])
     const toAgeInYears = useMemo(() => moment().diff(moment(playerData?.dob.toDate()) , 'years'), [playerData])
+
+    const assignCode = async (id: string , bracelet: string) => {
+        const atletesRef = doc(db, "atletes", id);
+        await updateDoc(atletesRef, {
+            carnetId: bracelet,
+          });
+
+        setOpen(false)
+        
+    }
 
     useEffect(() => {
         const unsub = onSnapshot(doc(db, "atletes", params.id), (doc) => {
@@ -26,9 +39,11 @@ const ViewPlayer = ({params} : any) => {
        }
     }, [])
 
+    
+
     return ( <MainLayout>
         
-        <div className="h-80 bg-center bg-cover" style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/padel-venezuela.appspot.com/o/defaults%2Fcancha-de-padel-tec-campus-laguna%20copy.jpg?alt=media&token=0357ca61-1d14-4341-847b-f79a90268420)` }}>
+        <div className="h-80 bg-center bg-cover relative" style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/padel-venezuela.appspot.com/o/defaults%2Fcancha-de-padel-tec-campus-laguna%20copy.jpg?alt=media&token=0357ca61-1d14-4341-847b-f79a90268420)` }}>
             <div className="flex items-center space-x-2 max-h-80">
                 <img className="h-80 w-80" src={playerData?.portraitpicture} alt="" />
                 <div className="flex flex-col">
@@ -39,9 +54,26 @@ const ViewPlayer = ({params} : any) => {
                 </div>
             </div>
 
+            <div className="absolute right-0 top-0 p-4">
+            <Dialog open={open} onOpenChange={setOpen}>
+                <DialogTrigger>
+                    <Button>Assign / Update</Button>
+                </DialogTrigger>
+                <DialogContent>
+                <div className='flex justify-center items-center'>
+                    <div className='flex flex-col items-center space-y-4 '>
+                        <Compass size={130} className='animate-spin text-gray-800 stroke-1'></Compass>
+                        <span className='lg:text-2xl text-md text-gray-700 uppercase font-bold'> Waiting for bracelet scan... </span>
+                        <Input className='border-transparent focus:bor text-white' autoFocus onChange={(e) => assignCode(params.id , e.target.value)}></Input>
+                    </div>
+                </div>
+                </DialogContent>
+            </Dialog>
+            </div>
+
         </div>
         <div className="grid grid-cols-3 gap-4 p-4">
-            <div className="row-span-2 lg:col-span-1 sm:col-span-3">
+            <div className="row-span-2 lg:col-span-1 md:col-span-3">
                 <Card>
                     <CardHeader className="space-y-1">
                         <CardTitle className="uppercase">personal</CardTitle>
@@ -65,6 +97,13 @@ const ViewPlayer = ({params} : any) => {
                                 <span className="uppercase font-bold">Email: </span>
                                 <span className="uppercase font-semibold text-gray-700">{playerData?.email}</span>
                             </div>
+                            {
+                                playerData?.carnetId && <div>
+                                    <span className="uppercase font-bold">Carnet number: </span>
+                                    <span>{playerData?.carnetId}</span>
+                                </div> 
+                            }
+                            
                         </div>
                     </CardContent>
                     <CardFooter>
@@ -72,28 +111,32 @@ const ViewPlayer = ({params} : any) => {
                         <div>
                         <h2 className="text-lg font-semibold text-center mb-6 text-gray-700">Social Media</h2>
 
-                        <div className="flex flex-wrap justify-center gap-2">
+                        <div className="flex flex-wrap justify-center gap-4">
                             {
-                                playerData?.socialmedias?.facebook && <a href={playerData?.socialmedias.facebook} className="bg-blue-500 p-2 font-semibold text-white inline-flex items-center space-x-2 rounded">
-                                    <svg className="w-5 h-5 fill-current" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
+                                playerData?.socialmedias?.facebook && <a href={playerData?.socialmedias.facebook} className="ease-in duration-300 hover:scale-125">
+                                   <Facebook></Facebook> 
                                 </a>
                             }
                             
                             {
-                                playerData?.socialmedias?.twitter && <a href={playerData?.socialmedias.twitter} className="bg-blue-400 p-2 font-semibold text-white inline-flex items-center space-x-2 rounded">
-                                    <svg className="w-5 h-5 fill-current" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" /></svg>
+                                playerData?.socialmedias?.twitter && <a href={playerData?.socialmedias.twitter} className="ease-in duration-300 hover:scale-125">
+                                    <Twitter></Twitter>
                                 </a>
                             }
-
-                            
+                            {
+                                playerData?.socialmedias?.twitter && <a href={playerData?.socialmedias.twitter} className="ease-in duration-300 hover:scale-125">
+                                    <Instagram></Instagram>
+                                </a>
+                            }
 
                         </div>
+                        
                         </div>
                     </div>
                     </CardFooter>
                 </Card>
             </div>
-            <div className="lg:col-span-2 sm:col-span-3">
+            <div className="lg:col-span-2 md:col-span-3">
                 <Card>
                     <CardContent className={`p-4 bg-center max-h-36 h-36`} style={{ backgroundImage: `url(${playerData?.bannerpicture})` }}>
                         <div className="grid grid-cols-4">
@@ -122,7 +165,7 @@ const ViewPlayer = ({params} : any) => {
                     </CardContent>
                 </Card>
             </div>
-            <div className="lg:col-span-2 sm:col-span-3">
+            <div className="lg:col-span-2 md:col-span-3">
             <Card>
                     <CardHeader>
                         <CardTitle>Team Members</CardTitle>
