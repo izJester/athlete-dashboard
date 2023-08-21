@@ -10,6 +10,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
+import ReactCountryFlag from "react-country-flag"
 
 // export const metadata: Metadata = {
 //     title: "Players",
@@ -101,6 +102,7 @@ const Content = ({ athletes, router }: any) => {
                     <TableHeader>
                         <TableRow>
                         <TableHead className="font-bold">Athlete</TableHead>
+                        <TableHead className="font-bold">Nationality</TableHead>
                         <TableHead className="font-bold">Position</TableHead>
                         <TableHead className="font-bold">Bracelet</TableHead>
                         <TableHead className="text-right"></TableHead>
@@ -121,6 +123,17 @@ const Content = ({ athletes, router }: any) => {
                                         </div>
                                     </div>
                                     
+                                </TableCell>
+                                <TableCell className="text-left">
+                                    <ReactCountryFlag
+                                        countryCode={athlete.data.nacionality}
+                                        svg
+                                        style={{
+                                            width: '2em',
+                                            height: '2em',
+                                        }}
+                                        title="US"
+                                    />
                                 </TableCell>
                                 <TableCell>{athlete.data.playingposition}</TableCell>
                                 <TableCell>
