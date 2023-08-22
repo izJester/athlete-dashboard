@@ -17,7 +17,7 @@ import { RecentSales } from "./components/recent-sales"
 
 export default function DashboardPage() {
   return (
-    <MainLayout>
+    <MainLayout header="Dashboard">
       <div className="md:hidden">
         <Image
           src="/examples/dashboard-light.png"
@@ -35,14 +35,7 @@ export default function DashboardPage() {
         />
       </div>
 
-      <div className="flex-1 space-y-4 p-8 pt-6">
-          <div className="flex items-center justify-between space-y-2">
-            <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-            <div className="flex items-center space-x-2">
-              {/* <CalendarDateRangePicker /> */}
-              <Button>Download</Button>
-            </div>
-          </div>
+      <div className="">
           <Tabs defaultValue="overview" className="space-y-4">
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>

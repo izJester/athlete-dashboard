@@ -72,8 +72,8 @@ const ViewPlayer = ({params} : any) => {
             </div>
 
         </div>
-        <div className="grid grid-cols-3 gap-4 p-4">
-            <div className="row-span-2 lg:col-span-1 md:col-span-3">
+        <div className="grid grid-cols-3 gap-4">
+            <div className="row-span-2 col-span-3 lg:col-span-1">
                 <Card>
                     <CardHeader className="space-y-1">
                         <CardTitle className="uppercase">personal</CardTitle>
@@ -136,7 +136,7 @@ const ViewPlayer = ({params} : any) => {
                     </CardFooter>
                 </Card>
             </div>
-            <div className="lg:col-span-2 md:col-span-3">
+            <div className="lg:col-span-2 col-span-3">
                 <Card>
                     <CardContent className={`p-4 bg-center max-h-36 h-36`} style={{ backgroundImage: `url(${playerData?.bannerpicture})` }}>
                         <div className="grid grid-cols-4">
@@ -165,7 +165,7 @@ const ViewPlayer = ({params} : any) => {
                     </CardContent>
                 </Card>
             </div>
-            <div className="lg:col-span-2 md:col-span-3">
+            <div className="lg:col-span-2 col-span-3">
             <Card>
                     <CardHeader>
                         <CardTitle>Team Members</CardTitle>

@@ -47,7 +47,7 @@ export default function Players() {
     }, []);
 
     return (
-        <MainLayout>
+        <MainLayout header="Players registered">
             {athletes.length > 0 ? <Content athletes={athletes} router={router} /> : <LoadingData />}
         </MainLayout>
     );
@@ -57,7 +57,7 @@ export default function Players() {
 
 const LoadingData = () => {
     return <>
-        <div className="flex-1 space-y-4 p-8 pt-6">
+        <div className="">
             <div className="space-y-4">
                 <Skeleton className="w-1/3 h-4"></Skeleton>
                 <Skeleton className="w-1/4 h-4"></Skeleton>
@@ -93,11 +93,7 @@ const LoadingData = () => {
 
 const Content = ({ athletes, router }: any) => {
     return <>
-    <div className="flex-1 space-y-4 p-8 pt-6">
-                    <div className="flex flex-col space-y-4">
-                        <span className="font-bold text-2xl">Players Registered</span>
-                        <span className="font-semibold text-sm text-gray-500">You can only see the players who been registered in the app.</span>
-                    </div>
+    <div className="">
                     <Table>
                     <TableCaption>Players of FVP.</TableCaption>
                     <TableHeader>
