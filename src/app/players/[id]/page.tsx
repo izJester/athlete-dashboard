@@ -12,6 +12,8 @@ import { Instagram } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import useAuth from "@/hooks/auth";
+import Login from "@/app/login/page";
 
 const ViewPlayer = ({params} : any) => {
     const [playerData, setPlayer] = useState<any>();
@@ -38,6 +40,13 @@ const ViewPlayer = ({params} : any) => {
         unsub();
        }
     }, [])
+
+
+    const { user } = useAuth();
+
+    if (!user) {
+        return <Login></Login>
+    }
 
     
 

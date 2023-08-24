@@ -22,7 +22,6 @@ import Login from "../login/page"
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  const router = useRouter();
 
   if (!user) {
     return <Login></Login>

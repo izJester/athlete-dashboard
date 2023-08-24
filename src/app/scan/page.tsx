@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react';
 import { Compass } from 'react-feather';
 import { db } from '../../../firebase.config';
 import { Input } from '@/components/ui/input';
+import useAuth from '@/hooks/auth';
+import Login from '../login/page';
 
 const Scan = () => {
     const [code , setCode] = useState<string>();
@@ -30,7 +32,13 @@ const Scan = () => {
             searchAthlete(code)
         }
     }, [code])
-    
+
+    const { user } = useAuth();
+
+    if (!user) {
+        return <Login></Login>
+    }
+
     return ( <MainLayout>
         <div className='flex justify-center items-center mt-24'>
             <div className='flex flex-col items-center space-y-4 '>

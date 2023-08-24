@@ -12,6 +12,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Skeleton } from "@/components/ui/skeleton";
 import ReactCountryFlag from "react-country-flag"
 import { Edit, Edit2 } from "react-feather";
+import useAuth from "@/hooks/auth";
+import Login from "../login/page";
 
 // export const metadata: Metadata = {
 //     title: "Players",
@@ -46,6 +48,11 @@ export default function Players() {
         };
     }, []);
 
+    const { user } = useAuth();
+
+    if (!user) {
+        return <Login></Login>
+    }
     return (
         <MainLayout header="Players registered">
             {athletes.length > 0 ? <Content athletes={athletes} router={router} /> : <LoadingData />}

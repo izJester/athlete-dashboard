@@ -59,7 +59,6 @@ const Login = () => {
                                 <Label>Password</Label>
                                 <Input
                                 id="password"
-                                placeholder="name@example.com"
                                 type="password"
                                 autoCapitalize="none"
                                 autoCorrect="off"
