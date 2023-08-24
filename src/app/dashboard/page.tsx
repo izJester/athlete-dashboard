@@ -1,3 +1,4 @@
+'use client'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -9,6 +10,10 @@ import { UserNav } from "./components/user-nav"
 import { Overview } from "./components/overview"
 import MainLayout from "@/layouts/mainLayout"
 import { RecentSales } from "./components/recent-sales"
+import useAuth from "@/hooks/auth"
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+import Login from "../login/page"
 
 // export const metadata: Metadata = {
 //   title: "Dashboard",
@@ -16,25 +21,15 @@ import { RecentSales } from "./components/recent-sales"
 // }
 
 export default function DashboardPage() {
+  const { user } = useAuth();
+  const router = useRouter();
+
+  if (!user) {
+    return <Login></Login>
+  }
+  
   return (
     <MainLayout header="Dashboard">
-      <div className="md:hidden">
-        <Image
-          src="/examples/dashboard-light.png"
-          width={1280}
-          height={866}
-          alt="Dashboard"
-          className="block dark:hidden"
-        />
-        <Image
-          src="/examples/dashboard-dark.png"
-          width={1280}
-          height={866}
-          alt="Dashboard"
-          className="hidden dark:block"
-        />
-      </div>
-
       <div className="">
           <Tabs defaultValue="overview" className="space-y-4">
             <TabsList>

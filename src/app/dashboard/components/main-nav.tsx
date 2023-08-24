@@ -1,9 +1,12 @@
+'use client'
 import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 import { usePathname  } from "next/navigation";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import Image from "next/image";
+import useAuth from "@/hooks/auth";
 
 export function MainNav({
   className,
@@ -25,11 +28,6 @@ export function MainNav({
     },
   ];
 
-  const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
-    { name: 'Sign out', href: '#' },
-  ]
 
   const user = {
     name: 'Tom Cook',
@@ -38,27 +36,14 @@ export function MainNav({
       'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   }
 
+  const { user: userAuth , signOut } = useAuth();
+  console.log('userAuth', userAuth)
+
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
   }
 
   return (
-    // <nav
-    //   className={cn("flex items-center space-x-4 lg:space-x-6", className)}
-    //   {...props}
-    // >
-    //   {
-    //     routes.map(route => <>
-    //       <Link
-    //         href={route.href}
-    //         className={`text-sm font-medium transition-colors hover:text-primary ${ pathname === route.href ? 'text-primary' : 'text-gray-400'}`}
-    //       >
-    //         {route.title}
-    //       </Link>
-    //     </>)
-    //   }
-    // </nav>
-
     <Disclosure as="nav" className="bg-transparent shadow">
     {({ open }) => (
       <>
@@ -66,11 +51,8 @@ export function MainNav({
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <img
-                  className="h-8 w-8"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                  alt="Your Company"
-                />
+
+                <Image src="/images/logo.png" height={90} width={90} alt="Logo" />
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
@@ -80,7 +62,7 @@ export function MainNav({
                       href={item.href}
                       className={classNames(
                         pathname === item.href
-                          ? 'border-amber-400 border-b-2'
+                          ? 'border-primary border-b-2'
                           : 'text-gray-300 border-gray-500',
                         'py-[22px] text-sm text-gray-700 hover:border-b-2'
                       )}
@@ -122,7 +104,7 @@ export function MainNav({
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      {userNavigation.map((item) => (
+                      {/* {userNavigation.map((item) => (
                         <Menu.Item key={item.name}>
                           {({ active }) => (
                             <Link
@@ -136,7 +118,21 @@ export function MainNav({
                             </Link>
                           )}
                         </Menu.Item>
-                      ))}
+                      ))} */}
+                      <Menu.Item>
+                        {({active}) => (
+                          <div
+                            // href={item.href}
+                            onClick={signOut}
+                            className={classNames(
+                              active ? 'bg-gray-100' : '',
+                              'block px-4 py-2 text-sm text-gray-700'
+                            )}
+                          >
+                          Sign Out
+                        </div>
+                        )}
+                      </Menu.Item>
                     </Menu.Items>
                   </Transition>
                 </Menu>
@@ -165,7 +161,7 @@ export function MainNav({
               href={item.href}
               className={classNames(
                 pathname === item.href
-                  ? 'border-amber-400 border-r-2'
+                  ? 'border-primary border-r-2'
                   : 'text-gray-300 border-gray-500',
                 'block px-3 py-2 text-base font-medium'
               )}
@@ -194,16 +190,26 @@ export function MainNav({
               </button>
             </div>
             <div className="mt-3 space-y-1 px-2">
-              {userNavigation.map((item) => (
-                <Disclosure.Button
-                  key={item.name}
-                  as="a"
-                  href={item.href}
-                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                >
-                  {item.name}
+              {/* {userNavigation.map((item) => 
+                    
+                  <Disclosure.Button
+                    key={item.name}
+                    as="a"
+                    href={item.href}
+                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                  >
+                    {item.name}
                 </Disclosure.Button>
-              ))}
+                
+              )} */}
+
+                  <Disclosure.Button
+                    as="div"
+                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                  >
+                    Sign Out
+                </Disclosure.Button>
+              
             </div>
           </div>
         </Disclosure.Panel>
