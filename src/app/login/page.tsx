@@ -12,6 +12,7 @@ import { auth } from "../../../firebase.config";
 import { useRouter } from "next/navigation";
 import useAuth from "@/hooks/auth";
 import DashboardPage from "../dashboard/page";
+import Image from "next/image";
 
 const Login = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -34,7 +35,8 @@ const Login = () => {
     }
 
     return ( <>
-        <div className="flex justify-center h-screen items-center">
+        <div className="flex flex-col space-y-4 justify-center h-screen items-center">
+            <Image src="/images/logo.png" height={120} width={120} alt="Logo" />
             <Card className="p-6">
                 <CardContent>
                     <div className={cn("grid gap-6")}>

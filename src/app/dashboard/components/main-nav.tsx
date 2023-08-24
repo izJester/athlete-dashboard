@@ -37,7 +37,6 @@ export function MainNav({
   }
 
   const { user: userAuth , signOut } = useAuth();
-  console.log('userAuth', userAuth)
 
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
