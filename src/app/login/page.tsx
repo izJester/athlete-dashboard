@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import useAuth from "@/hooks/auth";
 import DashboardPage from "../dashboard/page";
 import Image from "next/image";
+import Link from "next/link";
 
 const Login = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -84,14 +85,10 @@ const Login = () => {
                             </span>
                             </div>
                         </div>
-                        <Button variant="outline" type="button" disabled={isLoading}>
-                            {isLoading ? (
-                            <Circle className="mr-2 h-4 w-4 animate-spin" />
-                            ) : (
-                            <GitHub className="mr-2 h-4 w-4" />
-                            )}{" "}
-                            Github
-                        </Button>
+                        <div className="text-center">
+
+                            <Link className="text-sm hover:underline" href={'/reset-password'}> Forgot your password? </Link>
+                        </div>
                     </div>
                 </CardContent>
             </Card>

@@ -51,12 +51,6 @@ export default function Players() {
         };
     }, []);
 
-    const { user } = useAuth();
-
-    if (!user) {
-        return <Login></Login>
-    }
-
     return (
         <MainLayout header="Players registered">
             {

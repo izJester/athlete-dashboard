@@ -33,12 +33,6 @@ const Scan = () => {
         }
     }, [code])
 
-    const { user } = useAuth();
-
-    if (!user) {
-        return <Login></Login>
-    }
-
     return ( <MainLayout>
         <div className='flex justify-center items-center mt-24'>
             <div className='flex flex-col items-center space-y-4 '>

@@ -42,14 +42,6 @@ const ViewPlayer = ({params} : any) => {
     }, [])
 
 
-    const { user } = useAuth();
-
-    if (!user) {
-        return <Login></Login>
-    }
-
-    
-
     return ( <MainLayout>
         
         <div className="h-80 bg-center bg-cover relative" style={{ backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/padel-venezuela.appspot.com/o/defaults%2Fcancha-de-padel-tec-campus-laguna%20copy.jpg?alt=media&token=0357ca61-1d14-4341-847b-f79a90268420)` }}>

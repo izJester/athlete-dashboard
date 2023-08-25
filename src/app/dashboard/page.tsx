@@ -21,12 +21,7 @@ import Login from "../login/page"
 // }
 
 export default function DashboardPage() {
-  const { user } = useAuth();
-
-  if (!user) {
-    return <Login></Login>
-  }
-  
+ 
   return (
     <MainLayout header="Dashboard">
       <div className="">

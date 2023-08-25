@@ -3,11 +3,19 @@
 import { MainNav } from "@/app/dashboard/components/main-nav";
 import { Search } from "@/app/dashboard/components/search";
 import { UserNav } from "@/app/dashboard/components/user-nav";
+import Login from "@/app/login/page";
+import useAuth from "@/hooks/auth";
 
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Fragment } from "react";
 
 export default function MainLayout({children , header}: any) {
+
+    const { user } = useAuth();
+
+    if (!user) {
+      return <Login></Login>
+    }
 
     return (
         <>
