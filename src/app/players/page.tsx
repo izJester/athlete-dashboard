@@ -14,14 +14,17 @@ import ReactCountryFlag from "react-country-flag"
 import { Edit, Edit2 } from "react-feather";
 import useAuth from "@/hooks/auth";
 import Login from "../login/page";
+import { Athlete } from "../interfaces";
+import Image from "next/image";
 
 // export const metadata: Metadata = {
 //     title: "Players",
 //     description: "Example dashboard app built using the components.",
 //   }
 
+
 export default function Players() {
-    const [athletes , setAthletes] = useState<any>([]);
+    const [athletes , setAthletes] = useState<Athlete[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const router = useRouter()
@@ -30,7 +33,7 @@ export default function Players() {
         const q = query(collection(db, "atletes"));
     
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const newAthletes: any[] = [];
+            const newAthletes: Athlete[] = [];
             querySnapshot.forEach((doc) => {
                 newAthletes.push({ id: doc.id, data: doc.data() });
             });
@@ -53,12 +56,32 @@ export default function Players() {
     if (!user) {
         return <Login></Login>
     }
+
     return (
         <MainLayout header="Players registered">
-            {athletes.length > 0 ? <Content athletes={athletes} router={router} /> : <LoadingData />}
+            {
+                loading ? (
+                    <LoadingData></LoadingData>
+                ) : (
+                    athletes.length === 0 ? (
+                        <Empty />
+                    ) : (
+                        <Content athletes={athletes}></Content>
+                    )
+                )
+            }
         </MainLayout>
     );
   
+}
+
+const Empty = () => {
+    return <>
+        <div className="flex justify-center">
+            <Image alt="empty" src="empty.svg" width={400} height={400} />
+        </div>
+        <h2 className="text-center mt-2 font-bold text-2xl">Whoops is empty</h2>
+    </>
 }
 
 
