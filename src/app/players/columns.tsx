@@ -5,7 +5,21 @@ import { ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "./components/data-table-column-header"
 import { DataTableRowActions } from "./components/data-table-row-actions"
 import { Badge } from "@/components/ui/badge"
+import { categories } from "./data"
 
+interface Ranking {
+  names: string,
+  ranking: string,
+  categoria: string,
+  vpt1: number,
+  vpt2: number,
+  copa_nox: number,
+  copa_venplay: number,
+  puntaje: number,
+  vpt_date: number,
+  bullpadel: number,
+  total: number
+}
 
 export const columns: ColumnDef<any>[] = [
   {
@@ -30,26 +44,59 @@ export const columns: ColumnDef<any>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "nombres",
+    accessorKey: "names",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Nombres" />
+      <DataTableColumnHeader column={column} title="Names" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("nombres")}</div>
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue("names")}</div>
   },
   {
-    accessorKey: "nacionalidad",
+    accessorKey: "ranking",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Nacionalidad" />
+      <DataTableColumnHeader column={column} title="Ranking" />
+    ),
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue("ranking")}</div>
+  },
+  {
+    accessorKey: "categoria",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Categoria" />
     ),
     cell: ({ row }) => {
-        const { iso , oficial }: any = row.getValue('nacionalidad')
-        return (
-            <div className="flex space-x-2">
-                <Badge>{iso}</Badge>
-                <span>{oficial}</span>
-            </div>
-        )
-    }
+      const category = categories.find(
+        (category) => category.value === row.getValue("categoria")
+      )
+
+      if (!category) {
+        return null
+      }
+
+      return (
+        <div className="flex w-[100px] items-center">
+          {category.icon && (
+            <><category.icon className="mr-2 h-4 w-4 text-muted-foreground" /><></></>
+          )}
+          <span>{category.label}</span>
+        </div>
+      )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
+  },
+  {
+    accessorKey: "vpt1",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="VPT1" />
+    ),
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue("vpt1")}</div>
+  },
+  {
+    accessorKey: "vpt2",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="VPT2" />
+    ),
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue("vpt2")}</div>
   },
 //   {
 //     accessorKey: "title",

@@ -50,9 +50,8 @@ export function MainNav({
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-
-                {/* <Image src="/images/logo.png" height={90} width={90} alt="Logo" /> */}
-                <img className="h-8 w-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company"></img>
+                <Image src="/images/logo.png" height={90} width={90} alt="Logo" />
+               
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">

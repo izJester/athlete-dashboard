@@ -19,6 +19,7 @@ import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "./components/data-table";
 import { columns } from "./columns";
+import { AthletesRanking } from "./data";
 
 // export const metadata: Metadata = {
 //     title: "Players",
@@ -54,16 +55,7 @@ export default function Players() {
         };
     }, []);
 
-    const test = [
-        {
-            nombres: 'Testing',
-            nacionalidad: {
-                iso: 'VEN',
-                oficial: 'Venezuela',
-                nat: 233323
-            }
-        }
-    ]
+    
 
     return (
         <MainLayout header="Athletes">
@@ -88,7 +80,7 @@ export default function Players() {
                     }
                 </TabsContent>
                 <TabsContent value="ranking">
-                    <DataTable columns={columns} data={test} />
+                    <DataTable columns={columns} data={AthletesRanking} />
                 </TabsContent>
             </Tabs>
         </MainLayout>
