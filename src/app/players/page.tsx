@@ -17,7 +17,7 @@ import Login from "../login/page";
 import { Athlete } from "../interfaces";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DataTable } from "./data-table";
+import { DataTable } from "./components/data-table";
 import { columns } from "./columns";
 
 // export const metadata: Metadata = {
@@ -54,6 +54,17 @@ export default function Players() {
         };
     }, []);
 
+    const test = [
+        {
+            nombres: 'Testing',
+            nacionalidad: {
+                iso: 'VEN',
+                oficial: 'Venezuela',
+                nat: 233323
+            }
+        }
+    ]
+
     return (
         <MainLayout header="Athletes">
            
@@ -77,7 +88,7 @@ export default function Players() {
                     }
                 </TabsContent>
                 <TabsContent value="ranking">
-                    <DataTable columns={columns} data={[]} />
+                    <DataTable columns={columns} data={test} />
                 </TabsContent>
             </Tabs>
         </MainLayout>
