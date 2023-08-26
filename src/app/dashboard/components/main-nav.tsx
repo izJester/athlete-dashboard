@@ -19,7 +19,7 @@ export function MainNav({
       href: "/dashboard",
     },
     {
-      title: "Players",
+      title: "Athletes",
       href: "/players",
     },
     {

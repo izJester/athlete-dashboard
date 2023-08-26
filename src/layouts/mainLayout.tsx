@@ -1,13 +1,8 @@
 'use client'
 
 import { MainNav } from "@/app/dashboard/components/main-nav";
-import { Search } from "@/app/dashboard/components/search";
-import { UserNav } from "@/app/dashboard/components/user-nav";
 import Login from "@/app/login/page";
 import useAuth from "@/hooks/auth";
-
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Fragment } from "react";
 
 export default function MainLayout({children , header}: any) {
 
@@ -19,14 +14,6 @@ export default function MainLayout({children , header}: any) {
 
     return (
         <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
       <div className="min-h-full">
         <MainNav></MainNav>
 

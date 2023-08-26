@@ -16,6 +16,9 @@ import useAuth from "@/hooks/auth";
 import Login from "../login/page";
 import { Athlete } from "../interfaces";
 import Image from "next/image";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DataTable } from "./data-table";
+import { columns } from "./columns";
 
 // export const metadata: Metadata = {
 //     title: "Players",
@@ -52,18 +55,31 @@ export default function Players() {
     }, []);
 
     return (
-        <MainLayout header="Players registered">
-            {
-                loading ? (
-                    <LoadingData></LoadingData>
-                ) : (
-                    athletes.length === 0 ? (
-                        <Empty />
-                    ) : (
-                        <Content athletes={athletes}></Content>
-                    )
-                )
-            }
+        <MainLayout header="Athletes">
+           
+
+            <Tabs defaultValue="athletes" className="w-full">
+                <TabsList>
+                    <TabsTrigger value="athletes">Athletes registered</TabsTrigger>
+                    <TabsTrigger value="ranking">Ranking</TabsTrigger>
+                </TabsList>
+                <TabsContent value="athletes">
+                    {
+                        loading ? (
+                            <LoadingData></LoadingData>
+                        ) : (
+                            athletes.length === 0 ? (
+                                <Empty />
+                            ) : (
+                                <Content athletes={athletes}></Content>
+                            )
+                        )
+                    }
+                </TabsContent>
+                <TabsContent value="ranking">
+                    <DataTable columns={columns} data={[]} />
+                </TabsContent>
+            </Tabs>
         </MainLayout>
     );
   
