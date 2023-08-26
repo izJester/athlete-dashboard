@@ -5,37 +5,27 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { Circle, GitHub } from "react-feather";
-import { auth } from "../../../firebase.config";
-import { useRouter } from "next/navigation";
 import useAuth from "@/hooks/auth";
-import DashboardPage from "../dashboard/page";
 import Image from "next/image";
 import Link from "next/link";
+import GuestLayout from "@/layouts/guestLayout";
 
 const Login = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [ email , setEmail ] = useState<any>()
     const [ password , setPassword ] = useState<any>()
-    const {user , signIn} = useAuth();
-    const router = useRouter();
+    const {signIn} = useAuth();
 
     async function onSubmit(event: React.SyntheticEvent) {
         event.preventDefault()
         signIn(email , password , setIsLoading)
     }
 
-    if (user === undefined) {
-        return; 
-    }
+    
 
-    if (user) {
-        return <DashboardPage></DashboardPage>
-    }
-
-    return ( <>
+    return ( <GuestLayout>
         <div className="flex flex-col space-y-4 justify-center h-screen items-center">
             <Image src="/images/logo.png" height={120} width={120} alt="Logo" />
             <Card className="p-6">
@@ -93,7 +83,7 @@ const Login = () => {
                 </CardContent>
             </Card>
         </div>
-    </> );
+    </GuestLayout> );
 }
  
 export default Login;

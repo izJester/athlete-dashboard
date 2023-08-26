@@ -12,12 +12,15 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import useAuth from "@/hooks/auth";
 import { useState } from "react";
+import GuestLayout from "@/layouts/guestLayout";
+import { useToast } from "@/components/ui/use-toast";
 
 const ResetPassword = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [ email , setEmail ] = useState<any>()
     const {user , signIn} = useAuth();
     const router = useRouter();
+    const { toast } = useToast()
 
     async function onSubmit(event: React.SyntheticEvent) {
         event.preventDefault()
@@ -28,50 +31,54 @@ const ResetPassword = () => {
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            // ..
+            if ('auth/user-not-found') {   
+                toast({
+                    variant: "destructive",
+                    description: "This email does not exist",
+                  })
+            }
         });
     }
 
-    if (user === undefined) {
-        return; 
-    }
-
     return ( 
-        <div className="flex flex-col space-y-4 justify-center h-screen items-center">
-        <Image src="/images/logo.png" height={120} width={120} alt="Logo" />
-        <Card className="p-6">
-            <CardContent>
-                <div className={cn("grid gap-6")}>
-                    <form onSubmit={onSubmit}>
-                        <div className="grid gap-2">
-                        <div className="grid gap-1">
-                            <Label >
-                                Email
-                            </Label>
-                            <Input
-                            id="email"
-                            placeholder="name@example.com"
-                            type="email"
-                            autoCapitalize="none"
-                            autoComplete="email"
-                            autoCorrect="off"
-                            disabled={isLoading}
-                            onChange={(e) => setEmail(e.target.value)}
-                            />
-                            
-                        </div>
-                        <Button disabled={isLoading}>
-                            {isLoading && (
-                            <Circle className="mr-2 h-4 w-4 animate-spin" />
-                            )}
-                            Send recover email
-                        </Button>
-                        </div>
-                    </form>
-                </div>
-                </CardContent>
-                </Card>
-                </div>
+        <GuestLayout>
+            <div className="flex flex-col space-y-4 justify-center h-screen items-center">
+            <Image src="/images/logo.png" height={120} width={120} alt="Logo" />
+            <Card className="p-6">
+                <CardContent>
+                    <div className={cn("grid gap-6")}>
+                        <form onSubmit={onSubmit}>
+                            <div className="grid gap-2">
+                            <div className="grid gap-1">
+                                <Label >
+                                    Email
+                                </Label>
+                                <Input
+                                id="email"
+                                placeholder="name@example.com"
+                                type="email"
+                                autoCapitalize="none"
+                                autoComplete="email"
+                                autoCorrect="off"
+                                disabled={isLoading}
+                                onChange={(e) => setEmail(e.target.value)}
+                                />
+                                
+                            </div>
+                            <Button disabled={isLoading}>
+                                {isLoading && (
+                                <Circle className="mr-2 h-4 w-4 animate-spin" />
+                                )}
+                                Send recover email
+                            </Button>
+                            </div>
+                        </form>
+                    </div>
+                    </CardContent>
+                    </Card>
+                    </div>
+
+        </GuestLayout>
      );
 }
  
