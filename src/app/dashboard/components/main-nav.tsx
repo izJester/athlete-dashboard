@@ -26,6 +26,10 @@ export function MainNav({
       title: "Scan",
       href: "/scan",
     },
+    {
+      title: "Realtime",
+      href: "/realtime-game",
+    },
   ];
 
 
