@@ -7,7 +7,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import Image from "next/image";
 import useAuth from "@/hooks/auth";
-import { Menu as IconMenu } from "react-feather";
+import { Menu as IconMenu, Layers } from "react-feather";
 
 export function MainNav({
   className,
@@ -145,14 +145,13 @@ export function MainNav({
             <div className="-mr-2 flex md:hidden">
               {/* Mobile menu button */}
               <Disclosure.Button className="relative inline-flex items-center justify-center  text-gray-700">
-                <IconMenu></IconMenu>
                 <span className="absolute -inset-0.5" />
                 <span className="sr-only">Open main menu</span>
-                {/* {open ? (
-                  <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                {open ? (
+                  <Layers className="block h-6 w-6" aria-hidden="true" />
                 ) : (
-                  <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                )} */}
+                  <IconMenu className="block h-6 w-6" />
+                )}
               </Disclosure.Button>
             </div>
           </div>
