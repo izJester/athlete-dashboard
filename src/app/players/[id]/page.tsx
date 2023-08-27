@@ -19,8 +19,8 @@ const ViewPlayer = ({params} : any) => {
     const [playerData, setPlayer] = useState<any>();
     const [open, setOpen] = useState(false)
 
-    // const toBirthDate = useMemo(() => moment(playerData?.dob.toDate()).format("MMMM DD , YYYY"), [playerData])
-    // const toAgeInYears = useMemo(() => moment().diff(moment(playerData?.dob.toDate()) , 'years'), [playerData])
+    const toBirthDate = useMemo(() => moment(playerData?.dob).format("MMMM DD , YYYY"), [playerData])
+    const toAgeInYears = useMemo(() => moment().diff(moment(playerData?.dob) , 'years'), [playerData])
 
     const assignCode = async (id: string , bracelet: string) => {
         const atletesRef = doc(db, "athletes", id);
@@ -40,8 +40,6 @@ const ViewPlayer = ({params} : any) => {
         unsub();
        }
     }, [])
-
-    console.log('playerData', playerData)
 
 
     return ( <MainLayout>
@@ -90,11 +88,11 @@ const ViewPlayer = ({params} : any) => {
                             </div>
                             <div>
                                 <span className="uppercase font-bold">Birthdate: </span>
-                                <span className="uppercase font-semibold text-gray-700">{playerData?.dob}</span>
+                                <span className="uppercase font-semibold text-gray-700">{toBirthDate}</span>
                             </div>
                             <div>
                                 <span className="uppercase font-bold">Age: </span>
-                                <span className="uppercase font-semibold text-gray-700">{playerData?.dob}</span>
+                                <span className="uppercase font-semibold text-gray-700">{toAgeInYears}</span>
                             </div>
                             <div>
                                 <span className="uppercase font-bold">Email: </span>
