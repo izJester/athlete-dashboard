@@ -11,7 +11,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import ReactCountryFlag from "react-country-flag"
-import { Edit, Edit2 } from "react-feather";
+import { Edit, Edit2, MoreHorizontal } from "react-feather";
 import useAuth from "@/hooks/auth";
 import Login from "../login/page";
 import { Athlete } from "../interfaces";
@@ -183,7 +183,7 @@ const Content = ({ athletes, router }: any) => {
                                 <TableCell className="text-center">
                                     <DropdownMenu>
                                         <DropdownMenuTrigger>
-                                            <Edit2></Edit2>
+                                            <MoreHorizontal/>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent>
                                             <DropdownMenuLabel>Manage</DropdownMenuLabel>
