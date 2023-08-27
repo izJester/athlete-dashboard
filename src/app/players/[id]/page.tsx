@@ -143,21 +143,21 @@ const ViewPlayer = ({params} : any) => {
                         <div className="grid grid-cols-4">
                             <div className="col-span-2">
                                 <div className="flex flex-col items-center">
-                                    <span className="uppercase font-semibold text-white">Ranking: </span>
-                                    <span className="uppercase text-xl text-gray-100">{playerData?.ranking}</span>
+                                    <span className="uppercase font-semibold">Category: </span>
+                                    <span className="uppercase text-lg font-bold">{playerData?.category} - {playerData?.sex}</span>
                                 </div>
 
                             </div>
                             <div className="col-span-2">
                                 <div className="flex flex-col items-center">
-                                    <span className="uppercase font-semibold text-white">Sizes: </span>
+                                    <span className="uppercase font-semibold">Sizes: </span>
                                     <div>  
-                                        <span className="uppercase font-bold text-white">Pant: </span>
-                                        <span className="uppercase font-semibold text-white">{playerData?.pantsize}</span>
+                                        <span className="uppercase font-bold">Pant: </span>
+                                        <span className="uppercase font-semibold">{playerData?.pantsize}</span>
                                     </div>
                                     <div>
-                                        <span className="uppercase font-bold text-white">Shirt: </span>
-                                        <span className="uppercase font-semibold text-white">{playerData?.shirtsize}</span>
+                                        <span className="uppercase font-bold">Shirt: </span>
+                                        <span className="uppercase font-semibold">{playerData?.shirtsize}</span>
                                     </div>
                                 </div>
                             </div>
