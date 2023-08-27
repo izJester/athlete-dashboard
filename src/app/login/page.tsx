@@ -27,7 +27,7 @@ const Login = () => {
 
     return ( <GuestLayout>
         <div className="flex flex-col space-y-4 justify-center h-screen items-center">
-            <Image src="/images/logo.png" height={120} width={120} alt="Logo" />
+            <Image src="/logo.svg" height={120} width={120} alt="Logo" />
             
             <Card className="p-6">
                 <CardContent>

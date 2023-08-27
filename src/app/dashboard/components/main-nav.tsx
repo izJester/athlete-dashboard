@@ -7,6 +7,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import Image from "next/image";
 import useAuth from "@/hooks/auth";
+import { Menu as IconMenu } from "react-feather";
 
 export function MainNav({
   className,
@@ -54,7 +55,7 @@ export function MainNav({
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <Image src="/images/logo.png" height={90} width={90} alt="Logo" />
+                <Image src="/logo.svg" height={90} width={90} alt="Logo" />
                
               </div>
               <div className="hidden md:block">
@@ -143,7 +144,8 @@ export function MainNav({
             </div>
             <div className="-mr-2 flex md:hidden">
               {/* Mobile menu button */}
-              <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+              <Disclosure.Button className="relative inline-flex items-center justify-center  text-gray-700">
+                <IconMenu></IconMenu>
                 <span className="absolute -inset-0.5" />
                 <span className="sr-only">Open main menu</span>
                 {/* {open ? (
