@@ -19,11 +19,11 @@ const ViewPlayer = ({params} : any) => {
     const [playerData, setPlayer] = useState<any>();
     const [open, setOpen] = useState(false)
 
-    const toBirthDate = useMemo(() => moment(playerData?.dob.toDate()).format("MMMM DD , YYYY"), [playerData])
-    const toAgeInYears = useMemo(() => moment().diff(moment(playerData?.dob.toDate()) , 'years'), [playerData])
+    // const toBirthDate = useMemo(() => moment(playerData?.dob.toDate()).format("MMMM DD , YYYY"), [playerData])
+    // const toAgeInYears = useMemo(() => moment().diff(moment(playerData?.dob.toDate()) , 'years'), [playerData])
 
     const assignCode = async (id: string , bracelet: string) => {
-        const atletesRef = doc(db, "atletes", id);
+        const atletesRef = doc(db, "athletes", id);
         await updateDoc(atletesRef, {
             carnetId: bracelet,
           });
@@ -33,13 +33,15 @@ const ViewPlayer = ({params} : any) => {
     }
 
     useEffect(() => {
-        const unsub = onSnapshot(doc(db, "atletes", params.id), (doc) => {
+        const unsub = onSnapshot(doc(db, "athletes", params.id), (doc) => {
             setPlayer(doc.data())
         });
        return () => {
         unsub();
        }
     }, [])
+
+    console.log('playerData', playerData)
 
 
     return ( <MainLayout>
@@ -48,7 +50,7 @@ const ViewPlayer = ({params} : any) => {
             <div className="flex items-center space-x-2 max-h-80">
                 <img className="h-80 w-80" src={playerData?.portraitpicture} alt="" />
                 <div className="flex flex-col">
-                    <span className="font-semilbold text-2xl text-white uppercase mb-4">{playerData?.playingposition}</span>
+                    <span className="font-semilbold text-2xl text-white uppercase mb-4">{playerData?.position}</span>
                     <span className="font-bold text-4xl text-white uppercase">{playerData?.names}</span>
                     <span className="font-bold text-4xl text-white uppercase">{playerData?.lastnames}</span>
 
@@ -88,11 +90,11 @@ const ViewPlayer = ({params} : any) => {
                             </div>
                             <div>
                                 <span className="uppercase font-bold">Birthdate: </span>
-                                <span className="uppercase font-semibold text-gray-700">{toBirthDate}</span>
+                                <span className="uppercase font-semibold text-gray-700">{playerData?.dob}</span>
                             </div>
                             <div>
                                 <span className="uppercase font-bold">Age: </span>
-                                <span className="uppercase font-semibold text-gray-700">{toAgeInYears}</span>
+                                <span className="uppercase font-semibold text-gray-700">{playerData?.dob}</span>
                             </div>
                             <div>
                                 <span className="uppercase font-bold">Email: </span>

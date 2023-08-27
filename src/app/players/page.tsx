@@ -34,7 +34,7 @@ export default function Players() {
     const router = useRouter()
 
     useEffect(() => {
-        const q = query(collection(db, "atletes"));
+        const q = query(collection(db, "athletes"));
     
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const newAthletes: Athlete[] = [];
@@ -55,6 +55,7 @@ export default function Players() {
         };
     }, []);
 
+    console.log('athletes', athletes)
     
 
     return (
@@ -74,7 +75,7 @@ export default function Players() {
                             athletes.length === 0 ? (
                                 <Empty />
                             ) : (
-                                <Content athletes={athletes}></Content>
+                                <Content athletes={athletes} router={router}></Content>
                             )
                         )
                     }
@@ -166,7 +167,7 @@ const Content = ({ athletes, router }: any) => {
                                 </TableCell>
                                 <TableCell className="text-left">
                                     <ReactCountryFlag
-                                        countryCode={athlete.data.nacionality}
+                                        countryCode={athlete.data.nationality}
                                         svg
                                         style={{
                                             width: '2em',
@@ -175,7 +176,7 @@ const Content = ({ athletes, router }: any) => {
                                         title="US"
                                     />
                                 </TableCell>
-                                <TableCell>{athlete.data.playingposition}</TableCell>
+                                <TableCell>{athlete.data.position}</TableCell>
                                 <TableCell>
                                     <span className={`${athlete.data.carnetId ? 'bg-green-300' : 'bg-red-500' } px-2.5 text-xs rounded-full py-2 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white`}>{athlete.data.carnetId ? 'Assigned' : 'Waiting' }</span>
                                 </TableCell>
