@@ -6,7 +6,7 @@ import { Metadata } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { db } from "../../../firebase.config";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot, query, where } from "firebase/firestore";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -20,6 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "./components/data-table";
 import { columns } from "./columns";
 import { AthletesRanking } from "./data";
+import { useToast } from "@/components/ui/use-toast";
 
 // export const metadata: Metadata = {
 //     title: "Players",
@@ -32,9 +33,12 @@ export default function Players() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const router = useRouter()
+    const { toast } = useToast()
+
+    const athleteRef = collection(db, "athletes")
 
     useEffect(() => {
-        const q = query(collection(db, "athletes"));
+        const q = query(athleteRef);
     
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const newAthletes: Athlete[] = [];
@@ -55,7 +59,16 @@ export default function Players() {
         };
     }, []);
 
-    console.log('athletes', athletes)
+    const deleteAthlete = async (id: any) => {
+        try {
+            await deleteDoc(doc(athleteRef , id));
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                description: "Error",
+              })
+        }
+    }
     
 
     return (
@@ -75,7 +88,7 @@ export default function Players() {
                             athletes.length === 0 ? (
                                 <Empty />
                             ) : (
-                                <Content athletes={athletes} router={router}></Content>
+                                <Content athletes={athletes} router={router} deleteAthlete={deleteAthlete}></Content>
                             )
                         )
                     }
@@ -135,7 +148,7 @@ const LoadingData = () => {
     </>
 }
 
-const Content = ({ athletes, router }: any) => {
+const Content = ({ athletes, router, deleteAthlete }: any) => {
     return <>
     <div className="">
                     <Table>
@@ -189,6 +202,8 @@ const Content = ({ athletes, router }: any) => {
                                             <DropdownMenuLabel>Manage</DropdownMenuLabel>
                                             <DropdownMenuSeparator />
                                             <DropdownMenuItem onClick={() => router.push(`/players/${athlete.id}`)}>View</DropdownMenuItem>
+                                            {/* <DropdownMenuItem onClick={deleteAthlete(athlete.id)}>Delete</DropdownMenuItem> */}
+
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 </TableCell>
