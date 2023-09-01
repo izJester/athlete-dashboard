@@ -7,8 +7,6 @@ import { useEffect, useState } from 'react';
 import { Compass } from 'react-feather';
 import { db } from '../../../firebase.config';
 import { Input } from '@/components/ui/input';
-import useAuth from '@/hooks/auth';
-import Login from '../login/page';
 
 const Scan = () => {
     const [code , setCode] = useState<string>();
@@ -16,7 +14,7 @@ const Scan = () => {
 
     const searchAthlete = async (toSearch: any) => {
         try {
-            const q = query(collection(db, "atletes") , where("carnetId", "==" , toSearch));
+            const q = query(collection(db, "athletes") , where("carnetId", "==" , toSearch));
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
                 router.push(`/players/${doc.id}`)
