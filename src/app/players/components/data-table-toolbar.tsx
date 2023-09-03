@@ -36,6 +36,24 @@ export function DataTableToolbar<TData>({
             options={categories}
           />
         )}
+        {table.getColumn("condition") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("condition")}
+            title="Condition"
+            options={[
+              {
+                label: 'Victory',
+                value: 'victory',
+                // icon: Flag
+              },
+              {
+                  label: 'Defeat',
+                  value: 'defeat',
+                  // icon: Flag
+              },
+            ]}
+          />
+        )}
         {isFiltered && (
           <Button
             variant="ghost"

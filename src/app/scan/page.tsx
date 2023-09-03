@@ -7,18 +7,17 @@ import { useEffect, useState } from 'react';
 import { Compass } from 'react-feather';
 import { db } from '../../../firebase.config';
 import { Input } from '@/components/ui/input';
+import useFirestore from '@/hooks/firestore';
 
 const Scan = () => {
     const [code , setCode] = useState<string>();
     const router = useRouter();
+    const { searchByIndex } = useFirestore();
 
     const searchAthlete = async (toSearch: any) => {
         try {
-            const q = query(collection(db, "athletes") , where("carnetId", "==" , toSearch));
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-                router.push(`/players/${doc.id}`)
-            });
+            const doc = await searchByIndex(toSearch)
+            router.push(`/players/${doc?.id}`)
             
         } catch (error) {
             console.log('error', error)
