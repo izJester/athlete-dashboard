@@ -179,7 +179,7 @@ export default function Players() {
                         <div className="col-span-2">
                             <DataTable columns={columnsToResults} data={[{
                             names: "Andres Alizo",
-                            condition: "Victory",
+                            condition: "victory",
                             against: "Angel Maxwell",
                             score: "6|2"
                         }]} />
