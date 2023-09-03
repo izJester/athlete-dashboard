@@ -16,7 +16,7 @@ const Scan = () => {
 
     const searchAthlete = async (toSearch: any) => {
         try {
-            const doc = await searchByIndex(toSearch)
+            const doc: any = await searchByIndex(toSearch)
             router.push(`/players/${doc?.id}`)
             
         } catch (error) {
