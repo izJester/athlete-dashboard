@@ -34,7 +34,7 @@ const Scan = () => {
         <div className='flex justify-center items-center mt-24'>
             <div className='flex flex-col items-center space-y-4 '>
                 <Compass size={130} className='animate-spin text-gray-800 stroke-1'></Compass>
-                <span className='lg:text-2xl text-md text-gray-700 uppercase font-bold'> Waiting for bracelet scan... </span>
+                <span className='lg:text-2xl text-md text-gray-700 uppercase font-bold'> Esperando el brazalete... </span>
                 <Input className='border-transparent focus:bor text-white' autoFocus onChange={(e) => setCode(e.target.value)}></Input>
             </div>
         </div>

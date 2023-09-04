@@ -36,7 +36,7 @@ const Login = () => {
                             <div className="grid gap-2">
                             <div className="grid gap-1">
                                 <Label >
-                                    Email
+                                    Correo
                                 </Label>
                                 <Input
                                 id="email"
@@ -48,7 +48,7 @@ const Login = () => {
                                 disabled={isLoading}
                                 onChange={(e) => setEmail(e.target.value)}
                                 />
-                                <Label>Password</Label>
+                                <Label>Contraseña</Label>
                                 <Input
                                 id="password"
                                 type="password"
@@ -62,7 +62,7 @@ const Login = () => {
                                 {isLoading && (
                                 <Circle className="mr-2 h-4 w-4 animate-spin" />
                                 )}
-                                Sign In with Email
+                                Iniciar Sesión
                             </Button>
                             </div>
                         </form>
@@ -72,13 +72,13 @@ const Login = () => {
                             </div>
                             <div className="relative flex justify-center text-xs uppercase">
                             <span className="bg-background px-2 text-muted-foreground">
-                                Or continue with
+                                O continua con
                             </span>
                             </div>
                         </div>
                         <div className="text-center">
 
-                            <Link className="text-sm hover:underline" href={'/reset-password'}> Forgot your password? </Link>
+                            <Link className="text-sm hover:underline" href={'/reset-password'}>Olvidaste tu contraseña? </Link>
                         </div>
                     </div>
                 </CardContent>

@@ -1,4 +1,4 @@
-import { collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../../firebase.config";
 import { Athlete } from "@/app/interfaces";
 
@@ -46,6 +46,30 @@ const useFirestore = () => {
         });
     }
 
+    const addRecord = async ({setLoading , form , toast}: any) => {
+        setLoading(true)
+        try {
+            await addDoc(collection(db, "records"), {
+                who: form.who,
+                condition: form.condition,
+                against: form.against,
+                score: form.score
+             });
+
+            setLoading(false)
+            toast({
+                description: "Se registró correctamente"
+            })
+
+        } catch (error) {
+            setLoading(false)
+            toast({
+                variant: 'destructive',
+                description: "Error"
+            })
+        }
+    }
+
     const deleteAthlete = async ({ toast , ...props }: any) => {
         try {
             await deleteDoc(doc(athletesRef , props.id));
@@ -64,7 +88,8 @@ const useFirestore = () => {
         assignBracelet,
         getAthlete,
         getAthletes,
-        deleteAthlete
+        deleteAthlete,
+        addRecord
     };
 }
  

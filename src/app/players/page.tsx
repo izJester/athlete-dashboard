@@ -6,14 +6,12 @@ import { Metadata } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { db } from "../../../firebase.config";
-import { collection, deleteDoc, doc, onSnapshot, query, where } from "firebase/firestore";
+import { QuerySnapshot, addDoc, collection, deleteDoc, doc, onSnapshot, query, where } from "firebase/firestore";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import ReactCountryFlag from "react-country-flag"
-import { Edit, Edit2, MoreHorizontal } from "react-feather";
-import useAuth from "@/hooks/auth";
-import Login from "../login/page";
+import { Circle, Edit, Edit2, MoreHorizontal } from "react-feather";
 import { Athlete } from "../interfaces";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -28,6 +26,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import useFirestore from "@/hooks/firestore";
 
 // export const metadata: Metadata = {
 //     title: "Players",
@@ -37,17 +36,25 @@ import { Badge } from "@/components/ui/badge";
 
 export default function Players() {
     const [athletes , setAthletes] = useState<Athlete[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [ records , setRecords ] = useState<any>([])
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const router = useRouter()
     const { toast } = useToast()
+    const { addRecord } = useFirestore()
+
+    // Record form
+    const [ form , setForm ] = useState<any>({ condition: 'victory' })
 
     const athleteRef = collection(db, "athletes")
+    const recordsRef = collection(db, "records")
 
     useEffect(() => {
         const q = query(athleteRef);
-    
+        const q2 = query(recordsRef)
+
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            setLoading(true)
             const newAthletes: Athlete[] = [];
             querySnapshot.forEach((doc) => {
                 newAthletes.push({ id: doc.id, data: doc.data() });
@@ -59,12 +66,26 @@ export default function Players() {
             setError(true);
             setLoading(false); // Data loading failed
         });
+
+        const uns = onSnapshot(q2 , (querySnapshot) => {
+            const recordsEntry: any = []
+            querySnapshot.forEach(doc => {
+                recordsEntry.push(doc.data())
+            })
+
+            setRecords(recordsEntry)
+        })
     
         return () => {
             // Clean up the listener when the component unmounts
             unsubscribe();
+            uns();
         };
     }, []);
+
+    console.log('records', records)
+
+    
 
     const deleteAthlete = async (id: any) => {
         try {
@@ -79,14 +100,14 @@ export default function Players() {
     
 
     return (
-        <MainLayout header="Athletes">
+        <MainLayout header="Atletas">
            
 
             <Tabs defaultValue="athletes" className="w-full">
                 <TabsList>
-                    <TabsTrigger value="athletes">Athletes registered</TabsTrigger>
-                    <TabsTrigger value="ranking">Ranking</TabsTrigger>
-                    <TabsTrigger value="results">Results</TabsTrigger>
+                    <TabsTrigger value="athletes">Atletas registrados</TabsTrigger>
+                    <TabsTrigger value="ranking">Clasificación</TabsTrigger>
+                    <TabsTrigger value="results">Resultados</TabsTrigger>
                 </TabsList>
                 <TabsContent value="athletes">
                     {
@@ -110,25 +131,25 @@ export default function Players() {
                         <div className="col-span-1">
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Register results</CardTitle>
+                                    <CardTitle>Registrar resultados</CardTitle>
                                     <CardDescription>
-                                    What area are you having problems with?
+                                        ¿Cuales fueron los resultados hoy?
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="grid gap-6">
                                     <div className="grid grid-cols-2 gap-4">
                                     <div className="grid gap-2">
-                                        <Label htmlFor="description">Who</Label>
-                                        <Input></Input>
+                                        <Label htmlFor="description">Quien</Label>
+                                        <Input onChange={e => setForm({ ...form , who: e.target.value })}></Input>
                                     </div>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="security-level">Against To</Label>
-                                        <Input></Input>
+                                        <Label htmlFor="security-level">Contra quien</Label>
+                                        <Input onChange={e => setForm({ ...form , against: e.target.value })}></Input>
                                     </div>
                                     </div>
                                     <div className="grid gap-2">
-                                    <Label htmlFor="subject">Condition</Label>
-                                    <Select defaultValue="victory">
+                                    <Label htmlFor="subject">Condición</Label>
+                                    <Select onValueChange={ value => setForm({ ...form ,condition: value }) } defaultValue="victory">
                                         <SelectTrigger
                                             id="security-level"
                                             className=""
@@ -136,29 +157,28 @@ export default function Players() {
                                             <SelectValue placeholder="Select level" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="victory"><Badge>Victory</Badge></SelectItem>
-                                            <SelectItem value="defeat"><Badge variant={'destructive'}>Defeat</Badge></SelectItem>
+                                            <SelectItem value="victory"><Badge>Victoria</Badge></SelectItem>
+                                            <SelectItem value="defeat"><Badge variant={'destructive'}>Derrota</Badge></SelectItem>
                                         </SelectContent>
                                     </Select>
                                     </div>
                                     <div className="grid gap-2">
-                                    <Label htmlFor="description">Score</Label>
-                                    <Input></Input>
+                                    <Label htmlFor="description">Puntuación</Label>
+                                    <Input onChange={e => setForm({ ...form , score: e.target.value })}></Input>
                                     </div>
                                 </CardContent>
-                                <CardFooter className="justify-between space-x-2">
-                                    <Button variant="ghost">Cancel</Button>
-                                    <Button>Submit</Button>
+                                <CardFooter className="justify-end space-x-2">
+                                    <Button onClick={() => addRecord({setLoading , form , toast})} disabled={loading}>
+                                    {loading && (
+                                        <Circle className="mr-2 h-4 w-4 animate-spin" />
+                                    )}
+                                        Registrar
+                                    </Button>
                                 </CardFooter>
                             </Card>
                         </div>
                         <div className="col-span-2">
-                            <DataTable columns={columnsToResults} data={[{
-                            names: "Andres Alizo",
-                            condition: "victory",
-                            against: "Angel Maxwell",
-                            score: "6|2"
-                        }]} />
+                            <DataTable columns={columnsToResults} data={records} />
                         </div>
                     </div>
 
@@ -221,13 +241,13 @@ const Content = ({ athletes, router, deleteAthlete }: any) => {
     return <>
     <div className="">
                     <Table>
-                    <TableCaption>Players of FVP.</TableCaption>
+                    <TableCaption>Atletas de FVP.</TableCaption>
                     <TableHeader>
                         <TableRow>
-                        <TableHead className="font-bold">Athlete</TableHead>
-                        <TableHead className="font-bold">Nationality</TableHead>
-                        <TableHead className="font-bold">Position</TableHead>
-                        <TableHead className="font-bold">Bracelet</TableHead>
+                        <TableHead className="font-bold">Atleta</TableHead>
+                        <TableHead className="font-bold">Nacionalidad</TableHead>
+                        <TableHead className="font-bold">Posición</TableHead>
+                        <TableHead className="font-bold">Brazalete</TableHead>
                         <TableHead className="text-right"></TableHead>
                         </TableRow>
                     </TableHeader>
@@ -270,7 +290,7 @@ const Content = ({ athletes, router, deleteAthlete }: any) => {
                                         <DropdownMenuContent>
                                             <DropdownMenuLabel>Manage</DropdownMenuLabel>
                                             <DropdownMenuSeparator />
-                                            <DropdownMenuItem onClick={() => router.push(`/players/${athlete.id}`)}>View</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => router.push(`/players/${athlete.id}`)}>Ver</DropdownMenuItem>
                                             {/* <DropdownMenuItem onClick={deleteAthlete(athlete.id)}>Delete</DropdownMenuItem> */}
 
                                         </DropdownMenuContent>

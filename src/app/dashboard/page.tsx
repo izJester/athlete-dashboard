@@ -27,23 +27,14 @@ export default function DashboardPage() {
       <div className="">
           <Tabs defaultValue="overview" className="space-y-4">
             <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics" disabled>
-                Analytics
-              </TabsTrigger>
-              <TabsTrigger value="reports" disabled>
-                Reports
-              </TabsTrigger>
-              <TabsTrigger value="notifications" disabled>
-                Notifications
-              </TabsTrigger>
+              <TabsTrigger value="overview">Principal</TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Bracelets assigned
+                      Brazaletes asignados
                     </CardTitle>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -63,14 +54,14 @@ export default function DashboardPage() {
                   <CardContent>
                     <div className="text-2xl font-bold">$45,231.89</div>
                     <p className="text-xs text-muted-foreground">
-                      +20.1% from last month
+                      +20.1% del último mes
                     </p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Players waiting bracelet
+                      Atletas en espera de brazalete
                     </CardTitle>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -90,13 +81,13 @@ export default function DashboardPage() {
                   <CardContent>
                     <div className="text-2xl font-bold">+2350</div>
                     <p className="text-xs text-muted-foreground">
-                      +180.1% from last month
+                      +180.1% del último mes
                     </p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Sales</CardTitle>
+                    <CardTitle className="text-sm font-medium">Ventas</CardTitle>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -113,7 +104,7 @@ export default function DashboardPage() {
                   <CardContent>
                     <div className="text-2xl font-bold">+12,234</div>
                     <p className="text-xs text-muted-foreground">
-                      +19% from last month
+                      +19% del último mes
                     </p>
                   </CardContent>
                 </Card>
@@ -122,7 +113,7 @@ export default function DashboardPage() {
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                 <Card className="col-span-4">
                   <CardHeader>
-                    <CardTitle>Overview</CardTitle>
+                    <CardTitle>Gráfica</CardTitle>
                   </CardHeader>
                   <CardContent className="pl-2">
                     <Overview />
@@ -130,9 +121,9 @@ export default function DashboardPage() {
                 </Card>
                 <Card className="col-span-3">
                   <CardHeader>
-                    <CardTitle>Recent Sales</CardTitle>
+                    <CardTitle>Ventas recientes</CardTitle>
                     <CardDescription>
-                      You made 265 sales this month.
+                     Hiciste 265 ventas este mes.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>

@@ -16,19 +16,19 @@ export function MainNav({
   const pathname = usePathname ();
   const routes: { title: string; href: string }[] = [
     {
-      title: "Overview",
+      title: "Escritorio",
       href: "/dashboard",
     },
     {
-      title: "Athletes",
+      title: "Atletas",
       href: "/players",
     },
     {
-      title: "Scan",
+      title: "Escanear",
       href: "/scan",
     },
     {
-      title: "Realtime",
+      title: "Marcador",
       href: "/realtime-game",
     },
   ];

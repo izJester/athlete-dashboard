@@ -44,18 +44,18 @@ export const columnsToResults: ColumnDef<any>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "names",
+    accessorKey: "who",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Names" />
+      <DataTableColumnHeader column={column} title="Quien" />
     ),
-    cell: ({ row }) => <div>{ row.getValue("names") }</div>
+    cell: ({ row }) => <div>{ row.getValue("who") }</div>
   },
   {
     accessorKey: "condition",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Condition" />
+      <DataTableColumnHeader column={column} title="Condición" />
     ),
-    cell: ({ row }) => <Badge className="uppercase">{ row.getValue('condition') }</Badge>,
+    cell: ({ row }) => <Badge variant={ row.getValue('condition') == 'defeat' ? 'destructive' : 'default' } className="uppercase">{ row.getValue('condition') }</Badge>,
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id))
     },
@@ -63,14 +63,14 @@ export const columnsToResults: ColumnDef<any>[] = [
   {
     accessorKey: "against",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Against to" />
+      <DataTableColumnHeader column={column} title="Contra quien" />
     ),
     cell: ({ row }) => <div>{row.getValue('against')}</div>
   },
   {
     accessorKey: "score",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Score" />
+      <DataTableColumnHeader column={column} title="Puntuación" />
     ),
     cell: ({ row }) => <div>{row.getValue('score')}</div>
   }

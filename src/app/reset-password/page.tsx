@@ -53,7 +53,7 @@ const ResetPassword = () => {
                             <div className="grid gap-2">
                             <div className="grid gap-1">
                                 <Label >
-                                    Email
+                                    Correo
                                 </Label>
                                 <Input
                                 id="email"
@@ -71,7 +71,7 @@ const ResetPassword = () => {
                                 {isLoading && (
                                 <Circle className="mr-2 h-4 w-4 animate-spin" />
                                 )}
-                                Send recover email
+                                Enviar correo de recuperación
                             </Button>
                             </div>
                         </form>
