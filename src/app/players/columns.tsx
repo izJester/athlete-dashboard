@@ -55,7 +55,7 @@ export const columnsToResults: ColumnDef<any>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Condición" />
     ),
-    cell: ({ row }) => <Badge variant={ row.getValue('condition') == 'defeat' ? 'destructive' : 'default' } className="uppercase">{ row.getValue('condition') }</Badge>,
+    cell: ({ row }) => <Badge variant={ row.getValue('condition') == 'defeat' ? 'destructive' : 'default' } className="uppercase">{ row.getValue('condition') == 'victory' ? 'victoria' : 'derrota' }</Badge>,
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id))
     },
