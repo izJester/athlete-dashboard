@@ -38,11 +38,11 @@ const RealtimeGame = () => {
             <div className="flex justify-center p-2 mb-4">
                 <Image src="/logow.svg" height={120} width={120} alt="Logo" />
             </div>
-          <div className="">
+          {/* <div className="">
             <table className="w-full">
               <tbody>
                 <tr>
-                    <td className=" text-2xl font-bold">
+                    <td className=" text-xl font-bold">
                         <div className="flex items-center space-x-2">
                         <div className={`w-4 h-4 rounded-full ${isPlayer2Serving ? 'bg-green-500' : 'bg-gray-100'}`}></div>
                             <ReactCountryFlag
@@ -55,6 +55,7 @@ const RealtimeGame = () => {
                                 title="US"
                             />
                             <span>Angel Maxwell</span>
+                            <span>Angel Maxwell</span>
                         </div>
                     </td>
                     <td className=" text-2xl font-bold">1</td>
@@ -62,7 +63,7 @@ const RealtimeGame = () => {
                     <td className=" text-2xl font-bold">0</td>
                 </tr>
                 <tr>
-                    <td className=" text-2xl font-bold">
+                    <td className=" text-xl font-bold">
                     <div className="flex items-center space-x-2">
                         <div className={`w-4 h-4 rounded-full ${isPlayer1Serving ? 'bg-green-500' : 'bg-gray-400'}`}></div>
                             <ReactCountryFlag
@@ -83,7 +84,95 @@ const RealtimeGame = () => {
                 </tr>
               </tbody>
             </table>
+          </div> */}
+
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <div className="w-auto flex items-center space-x-6">
+                <div className={`w-4 h-4 rounded-full ${isPlayer1Serving ? 'bg-green-500' : 'bg-gray-100'}`}></div>
+                <div className="text-xl font-bold ">
+                  <div className="flex items-center space-x-2">
+                      <ReactCountryFlag
+                                countryCode='VE'
+                                svg
+                                style={{
+                                    width: '1em',
+                                    height: '1em',
+                                }}
+                                title="US"
+                            />
+                    <span className=""> Andres Alizo</span>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                      <ReactCountryFlag
+                                countryCode='PA'
+                                svg
+                                style={{
+                                    width: '1em',
+                                    height: '1em',
+                                }}
+                                title="US"
+                            />
+                    <span className=""> Angel Maxwell</span>
+                  </div>
+
+                </div>
+              </div>
+              
+              <div>
+                <div className="flex space-x-2">
+                  <span className="text-2xl font-bold">6</span>
+                  <span className="text-2xl font-bold">4</span>
+                  <span className="text-2xl font-bold">0</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <div className="w-auto flex items-center space-x-6">
+                <div className={`w-4 h-4 rounded-full ${isPlayer1Serving ? 'bg-green-500' : 'bg-gray-100'}`}></div>
+                <div className="text-xl font-bold ">
+                <div className="flex items-center space-x-2">
+                      <ReactCountryFlag
+                                countryCode='GB'
+                                svg
+                                style={{
+                                    width: '1em',
+                                    height: '1em',
+                                }}
+                                title="US"
+                            />
+                    <span className=""> Another One</span>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                      <ReactCountryFlag
+                                countryCode='ES'
+                                svg
+                                style={{
+                                    width: '1em',
+                                    height: '1em',
+                                }}
+                                title="US"
+                            />
+                    <span className=""> One Another</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <div className="flex space-x-2">
+                  <span className="text-2xl font-bold">6</span>
+                  <span className="text-2xl font-bold">6</span>
+                  <span className="text-2xl font-bold">0</span>
+                </div>
+              </div>
+            </div>
+
           </div>
+
+
           <div className="flex justify-center mt-6">
             <div className="text-center border p-2">
               <div className="text-4xl font-semibold mb-2">{ score?.current.home }</div>
