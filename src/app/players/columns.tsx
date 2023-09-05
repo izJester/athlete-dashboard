@@ -7,19 +7,6 @@ import { DataTableRowActions } from "./components/data-table-row-actions"
 import { Badge } from "@/components/ui/badge"
 import { categories } from "./data"
 
-interface Ranking {
-  names: string,
-  ranking: string,
-  categoria: string,
-  vpt1: number,
-  vpt2: number,
-  copa_nox: number,
-  copa_venplay: number,
-  puntaje: number,
-  vpt_date: number,
-  bullpadel: number,
-  total: number
-}
 
 export const columnsToResults: ColumnDef<any>[] = [
   {
@@ -44,11 +31,15 @@ export const columnsToResults: ColumnDef<any>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "who",
+    accessorKey: "team1",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Quien" />
     ),
-    cell: ({ row }) => <div>{ row.getValue("who") }</div>
+    cell: ({ row }) => {
+      const { first , second }: any = row.getValue('team1')
+
+      return <span> {first} , {second} </span>
+    }
   },
   {
     accessorKey: "condition",
@@ -61,11 +52,15 @@ export const columnsToResults: ColumnDef<any>[] = [
     },
   },
   {
-    accessorKey: "against",
+    accessorKey: "team2",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Contra quien" />
     ),
-    cell: ({ row }) => <div>{row.getValue('against')}</div>
+    cell: ({ row }) => {
+      const { first , second }: any = row.getValue('team2')
+
+      return <span> {first} , {second} </span>
+    }
   },
   {
     accessorKey: "score",

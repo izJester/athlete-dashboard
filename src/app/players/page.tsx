@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import useFirestore from "@/hooks/firestore";
+import { Plus } from "lucide-react";
 
 // export const metadata: Metadata = {
 //     title: "Players",
@@ -44,7 +45,7 @@ export default function Players() {
     const { addRecord } = useFirestore()
 
     // Record form
-    const [ form , setForm ] = useState<any>({ condition: 'victory' })
+    const [ form , setForm ] = useState<any>({ team1: {} , team2: {}, condition: 'victory' , score: '' })
 
     const athleteRef = collection(db, "athletes")
     const recordsRef = collection(db, "records")
@@ -97,7 +98,6 @@ export default function Players() {
               })
         }
     }
-    
 
     return (
         <MainLayout header="Atletas">
@@ -139,12 +139,26 @@ export default function Players() {
                                 <CardContent className="grid gap-6">
                                     <div className="grid grid-cols-2 gap-4">
                                     <div className="grid gap-2">
-                                        <Label htmlFor="description">Quien</Label>
-                                        <Input onChange={e => setForm({ ...form , who: e.target.value })}></Input>
+                                        <Label htmlFor="description">Equipo 1</Label>
+                                        <Input required onChange={e => {
+                                            let updated = {...form , team1: { ...form.team1  , first: e.target.value }}
+                                            setForm(updated)
+                                        }} />
+                                        <Input required onChange={e => {
+                                            let updated = {...form , team1: { ...form.team1  , second: e.target.value }}
+                                            setForm(updated)
+                                        }} />
                                     </div>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="security-level">Contra quien</Label>
-                                        <Input onChange={e => setForm({ ...form , against: e.target.value })}></Input>
+                                        <Label htmlFor="security-level">Equipo 2</Label>
+                                        <Input required onChange={e => {
+                                            let updated = {...form , team2: { ...form.team2  , first: e.target.value }}
+                                            setForm(updated)
+                                        }}></Input>
+                                        <Input required onChange={e => {
+                                            let updated = {...form , team2: { ...form.team2  , second: e.target.value }}
+                                            setForm(updated)
+                                        }}></Input>
                                     </div>
                                     </div>
                                     <div className="grid gap-2">
@@ -168,7 +182,7 @@ export default function Players() {
                                     </div>
                                 </CardContent>
                                 <CardFooter className="justify-end space-x-2">
-                                    <Button onClick={() => addRecord({setLoading , form , toast})} disabled={loading}>
+                                    <Button onClick={ () => addRecord({setLoading , form , toast})} disabled={loading}>
                                     {loading && (
                                         <Circle className="mr-2 h-4 w-4 animate-spin" />
                                     )}
