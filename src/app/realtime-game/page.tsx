@@ -86,11 +86,11 @@ const RealtimeGame = () => {
           </div>
           <div className="flex justify-center mt-6">
             <div className="text-center border p-2">
-              <div className="text-4xl font-semibold mb-2">{ score.current.home }</div>
+              <div className="text-4xl font-semibold mb-2">{ score?.current.home }</div>
             </div>
             <div className="text-4xl mx-6">-</div>
             <div className="text-center border p-2">
-              <div className="text-4xl font-semibold  mb-2">{ score.current.visitors }</div>
+              <div className="text-4xl font-semibold  mb-2">{ score?.current.visitors }</div>
             </div>
           </div>
           <div className="mt-6 space-y-2">
