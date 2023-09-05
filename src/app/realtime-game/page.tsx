@@ -1,8 +1,10 @@
 "use client"
 
+import { collection, onSnapshot, query } from "firebase/firestore";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
+import { db } from "../../../firebase.config";
 
 const RealtimeGame = () => {
     const setsPlayer1 = [6, 3, 7];
@@ -11,6 +13,24 @@ const RealtimeGame = () => {
     const isPlayer2Serving = false;
     const scorePlayer1 = 30;
     const scorePlayer2 = 15;
+    const [ score , setScore ] = useState<any>()
+
+    useEffect(() => {
+      const q = query(collection(db , "scores"))
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            setScore(doc.data())
+        });
+    }, (err) => {
+        
+    });
+    
+      return () => {
+        unsubscribe();
+      }
+    }, [])
+    
+    console.log('score', score)
   
     return (
       <div className="flex justify-center items-center h-screen bg-white">
@@ -66,11 +86,11 @@ const RealtimeGame = () => {
           </div>
           <div className="flex justify-center mt-6">
             <div className="text-center border p-2">
-              <div className="text-4xl font-semibold mb-2">{scorePlayer1}</div>
+              <div className="text-4xl font-semibold mb-2">{ score.current.home }</div>
             </div>
             <div className="text-4xl mx-6">-</div>
             <div className="text-center border p-2">
-              <div className="text-4xl font-semibold  mb-2">{scorePlayer2}</div>
+              <div className="text-4xl font-semibold  mb-2">{ score.current.visitors }</div>
             </div>
           </div>
           <div className="mt-6 space-y-2">

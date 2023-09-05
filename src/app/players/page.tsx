@@ -84,10 +84,6 @@ export default function Players() {
         };
     }, []);
 
-    console.log('records', records)
-
-    
-
     const deleteAthlete = async (id: any) => {
         try {
             await deleteDoc(doc(athleteRef , id));
