@@ -33,7 +33,7 @@ export const columnsToResults: ColumnDef<any>[] = [
   {
     accessorKey: "team1",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Quien" />
+      <DataTableColumnHeader column={column} title="Equipo 1" />
     ),
     cell: ({ row }) => {
       const { first , second }: any = row.getValue('team1')
@@ -54,7 +54,7 @@ export const columnsToResults: ColumnDef<any>[] = [
   {
     accessorKey: "team2",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Contra quien" />
+      <DataTableColumnHeader column={column} title="Equipo 2" />
     ),
     cell: ({ row }) => {
       const { first , second }: any = row.getValue('team2')
