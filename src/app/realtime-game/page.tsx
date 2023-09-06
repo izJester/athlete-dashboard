@@ -7,12 +7,8 @@ import ReactCountryFlag from "react-country-flag";
 import { db } from "../../../firebase.config";
 
 const RealtimeGame = () => {
-    const setsPlayer1 = [6, 3, 7];
-    const setsPlayer2 = [4, 6, 5];
     const isPlayer1Serving = true;
     const isPlayer2Serving = false;
-    const scorePlayer1 = 30;
-    const scorePlayer2 = 15;
     const [ score , setScore ] = useState<any>()
 
     useEffect(() => {
@@ -38,53 +34,6 @@ const RealtimeGame = () => {
             <div className="flex justify-center p-2 mb-4">
                 <Image src="/logow.svg" height={120} width={120} alt="Logo" />
             </div>
-          {/* <div className="">
-            <table className="w-full">
-              <tbody>
-                <tr>
-                    <td className=" text-xl font-bold">
-                        <div className="flex items-center space-x-2">
-                        <div className={`w-4 h-4 rounded-full ${isPlayer2Serving ? 'bg-green-500' : 'bg-gray-100'}`}></div>
-                            <ReactCountryFlag
-                                countryCode='PA'
-                                svg
-                                style={{
-                                    width: '1em',
-                                    height: '1em',
-                                }}
-                                title="US"
-                            />
-                            <span>Angel Maxwell</span>
-                            <span>Angel Maxwell</span>
-                        </div>
-                    </td>
-                    <td className=" text-2xl font-bold">1</td>
-                    <td className=" text-2xl font-bold">2</td>
-                    <td className=" text-2xl font-bold">0</td>
-                </tr>
-                <tr>
-                    <td className=" text-xl font-bold">
-                    <div className="flex items-center space-x-2">
-                        <div className={`w-4 h-4 rounded-full ${isPlayer1Serving ? 'bg-green-500' : 'bg-gray-400'}`}></div>
-                            <ReactCountryFlag
-                                countryCode='VE'
-                                svg
-                                style={{
-                                    width: '1em',
-                                    height: '1em',
-                                }}
-                                title="US"
-                            />
-                            <span>Andres Alizo</span>
-                        </div>
-                    </td>
-                    <td className=" text-2xl font-bold">6</td>
-                    <td className=" text-2xl font-bold">6</td>
-                    <td className=" text-2xl font-bold">0</td>
-                </tr>
-              </tbody>
-            </table>
-          </div> */}
 
           <div className="space-y-4">
             <div className="flex justify-between items-center">
@@ -131,7 +80,7 @@ const RealtimeGame = () => {
 
             <div className="flex justify-between items-center">
               <div className="w-auto flex items-center space-x-6">
-                <div className={`w-4 h-4 rounded-full ${isPlayer1Serving ? 'bg-green-500' : 'bg-gray-100'}`}></div>
+                <div className={`w-4 h-4 rounded-full ${isPlayer2Serving ? 'bg-green-500' : 'bg-gray-100'}`}></div>
                 <div className="text-xl font-bold ">
                 <div className="flex items-center space-x-2">
                       <ReactCountryFlag

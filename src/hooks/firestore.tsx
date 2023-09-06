@@ -4,6 +4,7 @@ import { Athlete } from "@/app/interfaces";
 
 const useFirestore = () => {
     const athletesRef = collection(db , 'athletes');
+    const recordsRef = collection(db , 'records');
 
     const searchByIndex = async (toSearch: string) => {
         let result;
@@ -44,6 +45,22 @@ const useFirestore = () => {
                 description: "Error fetching data"
             })
         });
+    }
+
+    const getRecords = ({ setRecords , toast }: any) => {
+        const q = query(recordsRef)
+        onSnapshot(q , (querySnapshot) => {
+            const records: any = [];
+            querySnapshot.forEach(doc => {
+                records.push(doc.data())
+            });
+            setRecords(records)
+        } , (err) => {
+            toast({
+                variant: 'destructive',
+                description: 'Error fetching data'
+            })
+        })
     }
 
     const addRecord = async ({setLoading , form , toast}: any) => {
@@ -88,6 +105,7 @@ const useFirestore = () => {
         assignBracelet,
         getAthlete,
         getAthletes,
+        getRecords,
         deleteAthlete,
         addRecord
     };

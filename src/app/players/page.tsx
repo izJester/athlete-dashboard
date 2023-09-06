@@ -5,29 +5,20 @@ import MainLayout from "@/layouts/mainLayout";
 import { Metadata } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { db } from "../../../firebase.config";
-import { QuerySnapshot, addDoc, collection, deleteDoc, doc, onSnapshot, query, where } from "firebase/firestore";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import ReactCountryFlag from "react-country-flag"
-import { Circle, Edit, Edit2, MoreHorizontal } from "react-feather";
 import { Athlete } from "../interfaces";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "./components/data-table";
 import { columns, columnsToResults } from "./columns";
 import { AthletesRanking } from "./data";
-import { useToast } from "@/components/ui/use-toast";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
+import RegisterRecords from "./components/register-records";
+import { MoreHorizontal } from "lucide-react";
 import useFirestore from "@/hooks/firestore";
-import { Plus } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 // export const metadata: Metadata = {
 //     title: "Players",
@@ -39,61 +30,16 @@ export default function Players() {
     const [athletes , setAthletes] = useState<Athlete[]>([]);
     const [ records , setRecords ] = useState<any>([])
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
     const router = useRouter()
-    const { toast } = useToast()
-    const { addRecord } = useFirestore()
+    const { toast } = useToast();
 
-    // Record form
-    const [ form , setForm ] = useState<any>({ team1: {} , team2: {}, condition: 'victory' , score: '' })
-
-    const athleteRef = collection(db, "athletes")
-    const recordsRef = collection(db, "records")
-
-    useEffect(() => {
-        const q = query(athleteRef);
-        const q2 = query(recordsRef)
-
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            setLoading(true)
-            const newAthletes: Athlete[] = [];
-            querySnapshot.forEach((doc) => {
-                newAthletes.push({ id: doc.id, data: doc.data() });
-            });
-            setAthletes(newAthletes);
-            setLoading(false); // Data loaded successfully
-        }, (err) => {
-            console.error("Error fetching data:", err);
-            setError(true);
-            setLoading(false); // Data loading failed
-        });
-
-        const uns = onSnapshot(q2 , (querySnapshot) => {
-            const recordsEntry: any = []
-            querySnapshot.forEach(doc => {
-                recordsEntry.push(doc.data())
-            })
-
-            setRecords(recordsEntry)
-        })
+    const { getAthletes, getRecords } = useFirestore();
     
-        return () => {
-            // Clean up the listener when the component unmounts
-            unsubscribe();
-            uns();
-        };
+    useEffect(() => {
+        getAthletes({ setAthletes , setLoading , toast })
+        getRecords({ setRecords , toast })
     }, []);
 
-    const deleteAthlete = async (id: any) => {
-        try {
-            await deleteDoc(doc(athleteRef , id));
-        } catch (error) {
-            toast({
-                variant: "destructive",
-                description: "Error",
-              })
-        }
-    }
 
     return (
         <MainLayout header="Atletas">
@@ -113,7 +59,7 @@ export default function Players() {
                             athletes.length === 0 ? (
                                 <Empty />
                             ) : (
-                                <Content athletes={athletes} router={router} deleteAthlete={deleteAthlete}></Content>
+                                <Content athletes={athletes} router={router}></Content>
                             )
                         )
                     }
@@ -125,67 +71,8 @@ export default function Players() {
 
                     <div className="grid grid-cols-3 gap-2">
                         <div className="col-span-1">
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Registrar resultados</CardTitle>
-                                    <CardDescription>
-                                        ¿Cuales fueron los resultados hoy?
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent className="grid gap-6">
-                                    <div className="grid grid-cols-2 gap-4">
-                                    <div className="grid gap-2">
-                                        <Label htmlFor="description">Equipo 1</Label>
-                                        <Input required onChange={e => {
-                                            let updated = {...form , team1: { ...form.team1  , first: e.target.value }}
-                                            setForm(updated)
-                                        }} />
-                                        <Input required onChange={e => {
-                                            let updated = {...form , team1: { ...form.team1  , second: e.target.value }}
-                                            setForm(updated)
-                                        }} />
-                                    </div>
-                                    <div className="grid gap-2">
-                                        <Label htmlFor="security-level">Equipo 2</Label>
-                                        <Input required onChange={e => {
-                                            let updated = {...form , team2: { ...form.team2  , first: e.target.value }}
-                                            setForm(updated)
-                                        }}></Input>
-                                        <Input required onChange={e => {
-                                            let updated = {...form , team2: { ...form.team2  , second: e.target.value }}
-                                            setForm(updated)
-                                        }}></Input>
-                                    </div>
-                                    </div>
-                                    <div className="grid gap-2">
-                                    <Label htmlFor="subject">Condición</Label>
-                                    <Select onValueChange={ value => setForm({ ...form ,condition: value }) } defaultValue="victory">
-                                        <SelectTrigger
-                                            id="security-level"
-                                            className=""
-                                        >
-                                            <SelectValue placeholder="Select level" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="victory"><Badge>Victoria</Badge></SelectItem>
-                                            <SelectItem value="defeat"><Badge variant={'destructive'}>Derrota</Badge></SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                    </div>
-                                    <div className="grid gap-2">
-                                    <Label htmlFor="description">Puntuación</Label>
-                                    <Input onChange={e => setForm({ ...form , score: e.target.value })}></Input>
-                                    </div>
-                                </CardContent>
-                                <CardFooter className="justify-end space-x-2">
-                                    <Button onClick={ () => addRecord({setLoading , form , toast})} disabled={loading}>
-                                    {loading && (
-                                        <Circle className="mr-2 h-4 w-4 animate-spin" />
-                                    )}
-                                        Registrar
-                                    </Button>
-                                </CardFooter>
-                            </Card>
+                            {/* Form Record */}
+                            <RegisterRecords />
                         </div>
                         <div className="col-span-2">
                             <DataTable columns={columnsToResults} data={records} />
@@ -247,7 +134,7 @@ const LoadingData = () => {
     </>
 }
 
-const Content = ({ athletes, router, deleteAthlete }: any) => {
+const Content = ({ athletes, router }: any) => {
     return <>
     <div className="">
                     <Table>
