@@ -67,10 +67,7 @@ const useFirestore = () => {
         setLoading(true)
         try {
             await addDoc(collection(db, "records"), {
-                team1: form.team1,
-                condition: form.condition,
-                team2: form.team2,
-                score: form.score
+                ...form
              });
 
             setLoading(false)

@@ -36,9 +36,9 @@ export const columnsToResults: ColumnDef<any>[] = [
       <DataTableColumnHeader column={column} title="Equipo 1" />
     ),
     cell: ({ row }) => {
-      const { first , second }: any = row.getValue('team1')
+      const data: any = row.getValue('team1')
 
-      return <span> {first} , {second} </span>
+      return <span> { data.join(', ') } </span>
     }
   },
   {
@@ -57,9 +57,9 @@ export const columnsToResults: ColumnDef<any>[] = [
       <DataTableColumnHeader column={column} title="Equipo 2" />
     ),
     cell: ({ row }) => {
-      const { first , second }: any = row.getValue('team2')
+      const data: any = row.getValue('team2')
 
-      return <span> {first} , {second} </span>
+      return <span> { data.join(', ') } </span>
     }
   },
   {
